@@ -1,0 +1,443 @@
+[
+  {
+    "provider": "落樱中转站 (luoying)",
+    "base_url": "https://apiserver.luoying.work/v1",
+    "status": "ONLINE",
+    "models": [
+      {
+        "model": "minimax-m3",
+        "ok": true,
+        "latency_ms": 1146,
+        "reply": "2",
+        "error": null
+      },
+      {
+        "model": "minimax-m2.7",
+        "ok": false,
+        "latency_ms": 164,
+        "reply": null,
+        "error": "HTTP 403: {\"status\":403,\"error\":{\"message\":\"模型 \\\"minimax-m2.7\\\" 未启用或不存在，请联系管理员\",\"type\":\"model_not_allowed\",\"code\":\"model_not_allowed\"}}"
+      },
+      {
+        "model": "gpt-5.4",
+        "ok": false,
+        "latency_ms": 127,
+        "reply": null,
+        "error": "HTTP 403: {\"status\":403,\"error\":{\"message\":\"模型 \\\"gpt-5.4\\\" 未启用或不存在，请联系管理员\",\"type\":\"model_not_allowed\",\"code\":\"model_not_allowed\"}}"
+      },
+      {
+        "model": "gpt-5.6-luna",
+        "ok": false,
+        "latency_ms": 198,
+        "reply": null,
+        "error": "HTTP 500: {\"error\":{\"message\":\"upstream error: do request failed (request id: 202609010709097969308618268d9d6qZfpp4Cb)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\""
+      },
+      {
+        "model": "deepseek-v4",
+        "ok": false,
+        "latency_ms": 102,
+        "reply": null,
+        "error": "HTTP 403: {\"status\":403,\"error\":{\"message\":\"模型 \\\"deepseek-v4\\\" 未启用或不存在，请联系管理员\",\"type\":\"model_not_allowed\",\"code\":\"model_not_allowed\"}}"
+      },
+      {
+        "model": "deepseek-v4-flash-0731",
+        "ok": false,
+        "latency_ms": 201,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model deepseek-v4-flash-0731 under group default (distributor) (request id: 202"
+      },
+      {
+        "model": "qwen-3.8",
+        "ok": false,
+        "latency_ms": 101,
+        "reply": null,
+        "error": "HTTP 403: {\"status\":403,\"error\":{\"message\":\"模型 \\\"qwen-3.8\\\" 未启用或不存在，请联系管理员\",\"type\":\"model_not_allowed\",\"code\":\"model_not_allowed\"}}"
+      },
+      {
+        "model": "claude-3-7-sonnet",
+        "ok": false,
+        "latency_ms": 120,
+        "reply": null,
+        "error": "HTTP 403: {\"status\":403,\"error\":{\"message\":\"模型 \\\"claude-3-7-sonnet\\\" 未启用或不存在，请联系管理员\",\"type\":\"model_not_allowed\",\"code\":\"model_not_allowed\"}}"
+      },
+      {
+        "model": "claude-haiku-4-5",
+        "ok": false,
+        "latency_ms": 5957,
+        "reply": null,
+        "error": "HTTP 418: {\"error\":{\"message\":\"openai_error\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
+      },
+      {
+        "model": "deepseek-ai/DeepSeek-V4-Pro-0813",
+        "ok": false,
+        "latency_ms": 12047,
+        "reply": null,
+        "error": "TimeoutError: The read operation timed out"
+      },
+      {
+        "model": "deepseek-v4-flash-vision-exp",
+        "ok": true,
+        "latency_ms": 1091,
+        "reply": "",
+        "error": null
+      },
+      {
+        "model": "dots3-note-prev",
+        "ok": true,
+        "latency_ms": 1227,
+        "reply": "",
+        "error": null
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "ok": true,
+        "latency_ms": 5906,
+        "reply": "2",
+        "error": null
+      },
+      {
+        "model": "gemini-3.6-flash",
+        "ok": true,
+        "latency_ms": 4694,
+        "reply": "2",
+        "error": null
+      },
+      {
+        "model": "glm-5.2",
+        "ok": false,
+        "latency_ms": 12078,
+        "reply": null,
+        "error": "TimeoutError: The read operation timed out"
+      }
+    ]
+  },
+  {
+    "provider": "xkiro中转站 (xkiro)",
+    "base_url": "https://api.xkiro.com/v1",
+    "status": "ONLINE",
+    "models": [
+      {
+        "model": "minimax-m2.7",
+        "ok": false,
+        "latency_ms": 504,
+        "reply": null,
+        "error": "HTTP 404: {\"error\":{\"message\":\"Model \\\"minimax-m2.7\\\" does not exist.\",\"type\":\"not_found_error\",\"code\":\"not_found\"}}"
+      },
+      {
+        "model": "gpt-5.4",
+        "ok": false,
+        "latency_ms": 580,
+        "reply": null,
+        "error": "HTTP 404: {\"error\":{\"message\":\"Model \\\"gpt-5.4\\\" does not exist.\",\"type\":\"not_found_error\",\"code\":\"not_found\"}}"
+      },
+      {
+        "model": "gpt-4o",
+        "ok": false,
+        "latency_ms": 673,
+        "reply": null,
+        "error": "HTTP 404: {\"error\":{\"message\":\"Model \\\"gpt-4o\\\" does not exist.\",\"type\":\"not_found_error\",\"code\":\"not_found\"}}"
+      },
+      {
+        "model": "claude-3-7-sonnet",
+        "ok": false,
+        "latency_ms": 738,
+        "reply": null,
+        "error": "HTTP 404: {\"error\":{\"message\":\"Model \\\"claude-3-7-sonnet\\\" does not exist.\",\"type\":\"not_found_error\",\"code\":\"not_found\"}}"
+      },
+      {
+        "model": "deepseek-chat",
+        "ok": false,
+        "latency_ms": 498,
+        "reply": null,
+        "error": "HTTP 404: {\"error\":{\"message\":\"Model \\\"deepseek-chat\\\" does not exist.\",\"type\":\"not_found_error\",\"code\":\"not_found\"}}"
+      },
+      {
+        "model": "openai/gpt-5.6-terra",
+        "ok": false,
+        "latency_ms": 521,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"This premium model requires an active paid plan or real deposited balance. Subscribe to a plan or top up your wallet to use it — "
+      },
+      {
+        "model": "qwen/qwen3-vl-plus:free",
+        "ok": true,
+        "latency_ms": 3046,
+        "reply": "2",
+        "error": null
+      },
+      {
+        "model": "openai/gpt-5.3-codex-spark",
+        "ok": false,
+        "latency_ms": 521,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"This model is available to paying customers only. Subscribe to a plan or top up your wallet to use it.\",\"type\":\"permission_error\""
+      },
+      {
+        "model": "z-ai/glm-4.5-airx",
+        "ok": false,
+        "latency_ms": 582,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"This premium model requires an active paid plan or real deposited balance. Subscribe to a plan or top up your wallet to use it — "
+      },
+      {
+        "model": "z-ai/glm-5v-turbo",
+        "ok": false,
+        "latency_ms": 773,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"This premium model requires an active paid plan or real deposited balance. Subscribe to a plan or top up your wallet to use it — "
+      },
+      {
+        "model": "openai/gpt-5.6-sol",
+        "ok": false,
+        "latency_ms": 529,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"This premium model requires an active paid plan or real deposited balance. Subscribe to a plan or top up your wallet to use it — "
+      },
+      {
+        "model": "google/gemini-2.5-flash",
+        "ok": false,
+        "latency_ms": 522,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"This pay-as-you-go premium model requires real deposited balance — it is billed from your wallet, not covered by a plan, and prom"
+      },
+      {
+        "model": "z-ai/glm-4.5-flash",
+        "ok": false,
+        "latency_ms": 487,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"This premium model requires an active paid plan or real deposited balance. Subscribe to a plan or top up your wallet to use it — "
+      }
+    ]
+  },
+  {
+    "provider": "Agnes官方中转 (Key 1)",
+    "base_url": "https://api.agnes-ai.cn/v1",
+    "status": "ONLINE",
+    "models": [
+      {
+        "model": "gpt-4o",
+        "ok": false,
+        "latency_ms": 98,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model gpt-4o under group default (distributor) (request id: 2026090107101213898"
+      },
+      {
+        "model": "gpt-4o-mini",
+        "ok": false,
+        "latency_ms": 100,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model gpt-4o-mini under group default (distributor) (request id: 20260901071012"
+      },
+      {
+        "model": "claude-3-5-sonnet-20241022",
+        "ok": false,
+        "latency_ms": 81,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model claude-3-5-sonnet-20241022 under group default (distributor) (request id:"
+      },
+      {
+        "model": "deepseek-v3",
+        "ok": false,
+        "latency_ms": 92,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model deepseek-v3 under group default (distributor) (request id: 20260901071013"
+      },
+      {
+        "model": "deepseek-r1",
+        "ok": false,
+        "latency_ms": 108,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model deepseek-r1 under group default (distributor) (request id: 20260901071013"
+      },
+      {
+        "model": "agnes-2.0-flash",
+        "ok": true,
+        "latency_ms": 269,
+        "reply": "2",
+        "error": null
+      },
+      {
+        "model": "agnes-2.5-flash",
+        "ok": true,
+        "latency_ms": 264,
+        "reply": "2",
+        "error": null
+      },
+      {
+        "model": "agnes-2.5-pro",
+        "ok": true,
+        "latency_ms": 483,
+        "reply": "",
+        "error": null
+      },
+      {
+        "model": "agnes-2.5-pro-alpha",
+        "ok": true,
+        "latency_ms": 411,
+        "reply": "",
+        "error": null
+      },
+      {
+        "model": "agnes-2.5-pro-beta",
+        "ok": true,
+        "latency_ms": 118,
+        "reply": "",
+        "error": null
+      },
+      {
+        "model": "agnes-image-2.1-flash",
+        "ok": false,
+        "latency_ms": 134,
+        "reply": null,
+        "error": "HTTP 400: {\"error\":{\"code\":\"invalid_request\",\"message\":\"Model agnes-image-2.1-flash is an image model. Use /v1/images/generations. (request id: 2026090107101721"
+      },
+      {
+        "model": "agnes-image-2.5-flash",
+        "ok": false,
+        "latency_ms": 121,
+        "reply": null,
+        "error": "HTTP 400: {\"error\":{\"code\":\"invalid_request\",\"message\":\"Model agnes-image-2.5-flash is an image model. Use /v1/images/generations. (request id: 2026090107101763"
+      },
+      {
+        "model": "agnes-video-2.5",
+        "ok": false,
+        "latency_ms": 83,
+        "reply": null,
+        "error": "HTTP 400: {\"error\":{\"code\":\"invalid_request\",\"message\":\"Model agnes-video-2.5 is a video model. Use /v1/videos. (request id: 2026090107101819644554ZYbykt19)\",\"t"
+      }
+    ]
+  },
+  {
+    "provider": "Agnes官方中转 (Key 2)",
+    "base_url": "https://api.agnes-ai.cn/v1",
+    "status": "ONLINE",
+    "models": [
+      {
+        "model": "gpt-4o",
+        "ok": false,
+        "latency_ms": 82,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model gpt-4o under group default (distributor) (request id: 2026090107101851778"
+      },
+      {
+        "model": "gpt-4o-mini",
+        "ok": false,
+        "latency_ms": 98,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model gpt-4o-mini under group default (distributor) (request id: 20260901071018"
+      },
+      {
+        "model": "claude-3-5-sonnet-20241022",
+        "ok": false,
+        "latency_ms": 88,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model claude-3-5-sonnet-20241022 under group default (distributor) (request id:"
+      },
+      {
+        "model": "deepseek-v3",
+        "ok": false,
+        "latency_ms": 83,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model deepseek-v3 under group default (distributor) (request id: 20260901071019"
+      },
+      {
+        "model": "deepseek-r1",
+        "ok": false,
+        "latency_ms": 91,
+        "reply": null,
+        "error": "HTTP 503: {\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model deepseek-r1 under group default (distributor) (request id: 20260901071020"
+      },
+      {
+        "model": "agnes-2.0-flash",
+        "ok": true,
+        "latency_ms": 1263,
+        "reply": "2",
+        "error": null
+      },
+      {
+        "model": "agnes-2.5-flash",
+        "ok": true,
+        "latency_ms": 238,
+        "reply": "2",
+        "error": null
+      },
+      {
+        "model": "agnes-2.5-pro",
+        "ok": false,
+        "latency_ms": 86,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"用户额度不足, 剩余额度: ￥0.000000 (request id: 202609010710225712001076nKPviWV)\",\"type\":\"AgnesAI_error\",\"param\":\"\",\"code\":\"insufficient_use"
+      },
+      {
+        "model": "agnes-2.5-pro-alpha",
+        "ok": false,
+        "latency_ms": 107,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"用户额度不足, 剩余额度: ￥0.000000 (request id: 20260901071022977056154iFpA7Hjw)\",\"type\":\"AgnesAI_error\",\"param\":\"\",\"code\":\"insufficient_use"
+      },
+      {
+        "model": "agnes-2.5-pro-beta",
+        "ok": false,
+        "latency_ms": 92,
+        "reply": null,
+        "error": "HTTP 403: {\"error\":{\"message\":\"用户额度不足, 剩余额度: ￥0.000000 (request id: 20260901071023372518687lZhlu8vI)\",\"type\":\"AgnesAI_error\",\"param\":\"\",\"code\":\"insufficient_use"
+      },
+      {
+        "model": "agnes-image-2.1-flash",
+        "ok": false,
+        "latency_ms": 108,
+        "reply": null,
+        "error": "HTTP 400: {\"error\":{\"code\":\"invalid_request\",\"message\":\"Model agnes-image-2.1-flash is an image model. Use /v1/images/generations. (request id: 2026090107102378"
+      },
+      {
+        "model": "agnes-image-2.5-flash",
+        "ok": false,
+        "latency_ms": 95,
+        "reply": null,
+        "error": "HTTP 400: {\"error\":{\"code\":\"invalid_request\",\"message\":\"Model agnes-image-2.5-flash is an image model. Use /v1/images/generations. (request id: 2026090107102418"
+      },
+      {
+        "model": "agnes-video-2.5",
+        "ok": false,
+        "latency_ms": 80,
+        "reply": null,
+        "error": "HTTP 400: {\"error\":{\"code\":\"invalid_request\",\"message\":\"Model agnes-video-2.5 is a video model. Use /v1/videos. (request id: 20260901071024565916417EXzoDrHQ)\",\""
+      }
+    ]
+  },
+  {
+    "provider": "OpenRouter (免费模型池)",
+    "base_url": "https://openrouter.ai/api/v1",
+    "status": "FAILED",
+    "models": [
+      {
+        "model": "google/gemini-2.0-flash-exp:free",
+        "ok": false,
+        "latency_ms": 594,
+        "reply": null,
+        "error": "HTTP 401: {\"error\":{\"message\":\"No cookie auth credentials found\",\"code\":401}}"
+      },
+      {
+        "model": "deepseek/deepseek-chat:free",
+        "ok": false,
+        "latency_ms": 373,
+        "reply": null,
+        "error": "HTTP 401: {\"error\":{\"message\":\"No cookie auth credentials found\",\"code\":401}}"
+      },
+      {
+        "model": "meta-llama/llama-3.3-70b-instruct:free",
+        "ok": false,
+        "latency_ms": 401,
+        "reply": null,
+        "error": "HTTP 401: {\"error\":{\"message\":\"No cookie auth credentials found\",\"code\":401}}"
+      },
+      {
+        "model": "qwen/qwen-2.5-72b-instruct:free",
+        "ok": false,
+        "latency_ms": 400,
+        "reply": null,
+        "error": "HTTP 401: {\"error\":{\"message\":\"No cookie auth credentials found\",\"code\":401}}"
+      }
+    ]
+  }
+]
