@@ -1,0 +1,108 @@
+远端 workflow 清单 (2 个):
+  Multi-Node Autonomous Anti-Sleep & External Activation Pulse state=active path=.github/workflows/keeper.yml
+  Redundant Anti-Sleep Sentinel                                state=active path=.github/workflows/sentinel.yml
+
+取到 100 条 run 记录，按时间升序统计相邻间隔：
+  2026-08-25T18:00:44Z Dynamic Anti-Detection Heartbeat                     (起点)
+  2026-08-25T18:51:02Z Dynamic Anti-Detection Heartbeat                     距上次   50.3 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T19:19:35Z Dynamic Anti-Detection Heartbeat                     距上次   28.6 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T19:49:23Z Dynamic Anti-Detection Heartbeat                     距上次   29.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T20:11:47Z Dynamic Anti-Detection Heartbeat                     距上次   22.4 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T20:44:48Z Dynamic Anti-Detection Heartbeat                     距上次   33.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T21:04:37Z Dynamic Anti-Detection Heartbeat                     距上次   19.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T21:37:51Z Dynamic Anti-Detection Heartbeat                     距上次   33.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T21:57:35Z Dynamic Anti-Detection Heartbeat                     距上次   19.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T22:24:10Z Dynamic Anti-Detection Heartbeat                     距上次   26.6 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T22:54:12Z Dynamic Anti-Detection Heartbeat                     距上次   30.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T23:15:32Z Dynamic Anti-Detection Heartbeat                     距上次   21.3 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T23:40:22Z Dynamic Anti-Detection Heartbeat                     距上次   24.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-25T23:59:28Z Dynamic Anti-Detection Heartbeat                     距上次   19.1 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T01:27:54Z Dynamic Anti-Detection Heartbeat                     距上次   88.4 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T02:46:26Z Dynamic Anti-Detection Heartbeat                     距上次   78.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T03:40:20Z Dynamic Anti-Detection Heartbeat                     距上次   53.9 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T04:24:15Z Dynamic Anti-Detection Heartbeat                     距上次   43.9 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T05:04:25Z Dynamic Anti-Detection Heartbeat                     距上次   40.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T05:23:06Z Continuous Anti-Sleep Cruiser                        距上次   18.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T05:23:08Z Redundant Anti-Sleep Sentinel                        距上次    0.0 分钟
+  2026-08-26T05:55:28Z Continuous Anti-Sleep Cruiser                        距上次   32.3 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T06:04:34Z Redundant Anti-Sleep Sentinel                        距上次    9.1 分钟
+  2026-08-26T06:25:56Z Continuous Anti-Sleep Cruiser                        距上次   21.4 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T07:13:29Z Redundant Anti-Sleep Sentinel                        距上次   47.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T07:22:26Z Continuous Anti-Sleep Cruiser                        距上次    8.9 分钟
+  2026-08-26T08:04:20Z Redundant Anti-Sleep Sentinel                        距上次   41.9 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T08:04:47Z Continuous Anti-Sleep Cruiser                        距上次    0.5 分钟
+  2026-08-26T08:58:36Z Continuous Anti-Sleep Cruiser                        距上次   53.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T09:06:25Z Redundant Anti-Sleep Sentinel                        距上次    7.8 分钟
+  2026-08-26T09:36:29Z Continuous Anti-Sleep Cruiser                        距上次   30.1 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T10:01:33Z Redundant Anti-Sleep Sentinel                        距上次   25.1 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T10:16:35Z Continuous Anti-Sleep Cruiser                        距上次   15.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T10:55:04Z Redundant Anti-Sleep Sentinel                        距上次   38.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T10:56:28Z Continuous Anti-Sleep Cruiser                        距上次    1.4 分钟
+  2026-08-26T11:20:18Z Continuous Anti-Sleep Cruiser                        距上次   23.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T11:34:34Z Redundant Anti-Sleep Sentinel                        距上次   14.3 分钟
+  2026-08-26T11:52:12Z Continuous Anti-Sleep Cruiser                        距上次   17.6 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T12:01:47Z Redundant Anti-Sleep Sentinel                        距上次    9.6 分钟
+  2026-08-26T12:21:49Z Continuous Anti-Sleep Cruiser                        距上次   20.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T13:28:11Z Redundant Anti-Sleep Sentinel                        距上次   66.4 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T13:30:05Z Continuous Anti-Sleep Cruiser                        距上次    1.9 分钟
+  2026-08-26T14:23:23Z Continuous Anti-Sleep Cruiser                        距上次   53.3 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T14:24:43Z Redundant Anti-Sleep Sentinel                        距上次    1.3 分钟
+  2026-08-26T15:56:30Z Continuous Anti-Sleep Cruiser                        距上次   91.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T16:04:28Z Redundant Anti-Sleep Sentinel                        距上次    8.0 分钟
+  2026-08-26T16:41:36Z Continuous Anti-Sleep Cruiser                        距上次   37.1 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T18:08:08Z Redundant Anti-Sleep Sentinel                        距上次   86.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T18:23:17Z Continuous Anti-Sleep Cruiser                        距上次   15.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T20:12:54Z Redundant Anti-Sleep Sentinel                        距上次  109.6 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T20:16:19Z Continuous Anti-Sleep Cruiser                        距上次    3.4 分钟
+  2026-08-26T23:45:09Z Redundant Anti-Sleep Sentinel                        距上次  208.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-26T23:47:10Z Continuous Anti-Sleep Cruiser                        距上次    2.0 分钟
+  2026-08-27T05:13:20Z Continuous Anti-Sleep Cruiser                        距上次  326.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-27T08:36:20Z Redundant Anti-Sleep Sentinel                        距上次  203.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-27T16:29:39Z Continuous Anti-Sleep Cruiser                        距上次  473.3 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-27T19:15:28Z Redundant Anti-Sleep Sentinel                        距上次  165.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-28T01:02:40Z Continuous Anti-Sleep Cruiser                        距上次  347.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-28T03:36:53Z Redundant Anti-Sleep Sentinel                        距上次  154.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-28T12:43:08Z Continuous Anti-Sleep Cruiser                        距上次  546.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-28T13:44:49Z Lightweight Anti-Sleep Pulse                         距上次   61.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-28T15:40:21Z Redundant Anti-Sleep Sentinel                        距上次  115.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-28T23:13:37Z Lightweight Anti-Sleep Pulse                         距上次  453.3 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T00:29:37Z Redundant Anti-Sleep Sentinel                        距上次   76.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T04:14:15Z Lightweight Anti-Sleep Pulse                         距上次  224.6 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T07:21:59Z Redundant Anti-Sleep Sentinel                        距上次  187.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T11:14:45Z Lightweight Anti-Sleep Pulse                         距上次  232.8 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T13:21:14Z Redundant Anti-Sleep Sentinel                        距上次  126.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T15:42:17Z Lightweight Anti-Sleep Pulse                         距上次  141.1 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T17:22:20Z Redundant Anti-Sleep Sentinel                        距上次  100.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T18:55:20Z Lightweight Anti-Sleep Pulse                         距上次   93.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T19:58:32Z Redundant Anti-Sleep Sentinel                        距上次   63.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T21:35:11Z Lightweight Anti-Sleep Pulse                         距上次   96.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T22:36:32Z Redundant Anti-Sleep Sentinel                        距上次   61.4 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-29T23:38:38Z Lightweight Anti-Sleep Pulse                         距上次   62.1 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T00:43:10Z Redundant Anti-Sleep Sentinel                        距上次   64.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T01:46:04Z Lightweight Anti-Sleep Pulse                         距上次   62.9 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T06:22:37Z Redundant Anti-Sleep Sentinel                        距上次  276.6 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T07:32:16Z Lightweight Anti-Sleep Pulse                         距上次   69.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T12:12:45Z Redundant Anti-Sleep Sentinel                        距上次  280.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T13:20:27Z Lightweight Anti-Sleep Pulse                         距上次   67.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T16:47:47Z Redundant Anti-Sleep Sentinel                        距上次  207.3 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T17:39:20Z Lightweight Anti-Sleep Pulse                         距上次   51.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T19:40:53Z Redundant Anti-Sleep Sentinel                        距上次  121.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T20:06:51Z Lightweight Anti-Sleep Pulse                         距上次   26.0 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T22:34:46Z Redundant Anti-Sleep Sentinel                        距上次  147.9 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-30T22:51:51Z Lightweight Anti-Sleep Pulse                         距上次   17.1 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-31T00:49:15Z Redundant Anti-Sleep Sentinel                        距上次  117.4 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-31T01:14:57Z Lightweight Anti-Sleep Pulse                         距上次   25.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-31T06:50:30Z Redundant Anti-Sleep Sentinel                        距上次  335.6 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-31T07:11:10Z Lightweight Anti-Sleep Pulse                         距上次   20.7 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-31T14:57:43Z Redundant Anti-Sleep Sentinel                        距上次  466.6 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-31T15:14:12Z Lightweight Anti-Sleep Pulse                         距上次   16.5 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-31T20:45:35Z Redundant Anti-Sleep Sentinel                        距上次  331.4 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-08-31T20:54:40Z Lightweight Anti-Sleep Pulse                         距上次    9.1 分钟
+  2026-09-01T00:28:36Z Lightweight Anti-Sleep Pulse                         距上次  213.9 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-09-01T00:29:27Z Redundant Anti-Sleep Sentinel                        距上次    0.8 分钟
+  2026-09-01T05:39:22Z Redundant Anti-Sleep Sentinel                        距上次  309.9 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+  2026-09-01T05:44:35Z Lightweight Anti-Sleep Pulse                         距上次    5.2 分钟
+  2026-09-01T07:24:49Z Multi-Node Autonomous Anti-Sleep & External Activati 距上次  100.2 分钟  <<< 超过 15 分钟，Render 免费实例会休眠
+
+间隔统计: 共 99 段 | 最小 0.0 分 | 最大 546.2 分 | 平均 95.4 分
+超过 15 分钟的空窗: 83 段，占比 84%

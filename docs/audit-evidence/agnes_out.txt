@@ -1,0 +1,13 @@
+=== 1. Agnes 模型清单 (/v1/models) ===
+HTTP 200 106ms
+模型总数 10: ['agnes-2.0-flash', 'agnes-2.5-flash', 'agnes-2.5-pro', 'agnes-2.5-pro-alpha', 'agnes-2.5-pro-beta', 'agnes-image-2.1-flash', 'agnes-image-2.5-flash', 'agnes-video-2.5', 'agnes-video-2.5-flash', 'agnes-video-v2.0']
+
+=== 2. 生图端点 /v1/images/generations · 代码里写的 agnes-image-2.1-flash ===
+KEY1 -> HTTP 200 44028ms | {"data":[{"url":"https://cos-platform-outputs.agnes-ai.cn/images/t2i/task_TibDQ7wdRH0lWr1xU7vZ1Bm2bxcLHoYI/output_a6e48888aba84acc9528a2e3cb86df9b.png","b64_json":"","revised_prompt":""}],"created":1788249498,"task_id":"task_TibDQ7wdRH0lWr1xU7vZ1Bm2bxcLHoYI"}
+KEY2 -> HTTP 200 46884ms | {"data":[{"url":"https://cos-platform-outputs.agnes-ai.cn/images/t2i/task_GUu5tivbFKLFd11aLpSktXINSvI5bXFN/output_f374fa216b1b495f8ce2adf97ec489f3.png","b64_json":"","revised_prompt":""}],"created":1788249545,"task_id":"task_GUu5tivbFKLFd11aLpSktXINSvI5bXFN"}
+
+=== 3. 聊天端点实测（当前 model_router 首选模型）===
+KEY1 agnes-2.5-flash        HTTP 200 385ms | {"id":"ad7e4b20bc1f437da0c9e46871c2ca4e","created":1788249545,"model":"agnes-2.5-flash","object":"chat.completion","choices":[{"finish_reason":"stop","index":0,
+KEY1 agnes-2.0-flash        HTTP 200 2231ms | {"id":"44cfa02f45b348aa97d2373e5de5904d","created":1788249548,"model":"agnes-2.0-flash","object":"chat.completion","choices":[{"finish_reason":"stop","index":0,
+KEY1 agnes-2.5-pro          HTTP 200 9623ms | {"id":"38d4a77181eb468ba7a5eb5acb287a22","created":1788249549,"model":"agnes-2.5-pro","object":"chat.completion","choices":[{"finish_reason":"length","index":0,
+KEY1 agnes-2.5-pro-beta     HTTP 200 106ms | {"id":"38d4a77181eb468ba7a5eb5acb287a22","created":1788249549,"model":"agnes-2.5-pro","object":"chat.completion","choices":[{"finish_reason":"length","index":0,

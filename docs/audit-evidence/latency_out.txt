@@ -1,0 +1,23 @@
+=== A. 真实长文本负载 (max_tokens=1500, 约400字中文) vs 6000ms 硬熔断 ===
+通道           模型                             耗时ms     6s内?     字符数    tok  备注
+agnes-key1   agnes-2.5-flash                2936      YES     613    306  OK
+agnes-key1   agnes-2.0-flash               13828       NO     609    331  OK
+agnes-key1   agnes-2.5-pro                  4655      YES    1166    779  OK
+agnes-key2   agnes-2.5-flash               16582       NO     656    356  OK
+agnes-key2   agnes-2.0-flash                2383      YES     644    325  OK
+luoying      minimax-m3                    30097       NO       0      -  HTTP 524 
+luoying      deepseek-v4-flash-0731          245       NO       0      -  HTTP 503 {"error":{"code":"model_not_found","message":"No available channel for model deepseek-v4-flash-0731 under grou
+luoying      qwen-3.8                        153       NO       0      -  HTTP 403 {"status":403,"error":{"message":"模型 \"qwen-3.8\" 未启用或不存在，请联系管理员","type":"model_not_allowed","code":"model_not
+luoying      deepseek-v4                     109       NO       0      -  HTTP 403 {"status":403,"error":{"message":"模型 \"deepseek-v4\" 未启用或不存在，请联系管理员","type":"model_not_allowed","code":"model_
+luoying      gpt-5.4                         167       NO       0      -  HTTP 403 {"status":403,"error":{"message":"模型 \"gpt-5.4\" 未启用或不存在，请联系管理员","type":"model_not_allowed","code":"model_not_
+xkiro        minimax-m2.7                    388       NO       0      -  HTTP 403 error code: 1010 
+xkiro        gpt-5.4                         354       NO       0      -  HTTP 403 error code: 1010 
+
+=== B. 落樱/xkiro 基准里实测可用但未进容灾链的模型 (同样长负载) ===
+luoying      deepseek-v4-flash-vision-exp       6193 6s内=NO  字符=820   tok=503
+luoying      dots3-note-prev                    8140 6s内=NO  字符=575   tok=1044
+luoying      gemini-3.6-flash                   5997 6s内=YES 字符=806   tok=590
+luoying      gemini-3.5-flash-lite             15178 6s内=NO  字符=793   tok=683
+xkiro        qwen/qwen3-vl-plus:free             359 6s内=NO  字符=0     HTTP 403 error code: 1010 
+agnes-key1   agnes-2.5-pro-alpha                7270 6s内=NO  字符=0     tok=1500
+agnes-key1   agnes-2.5-pro-beta                 5397 6s内=YES 字符=1029  tok=707

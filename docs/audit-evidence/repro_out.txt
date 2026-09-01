@@ -1,0 +1,24 @@
+已注入通道 Key: 4/4，缺失: 无
+=== 复现 1：单次 executeWithFailover（真实长文本负载） ===
+  第1次 成功 | 3273ms | provider=agnes-key1 model=agnes-2.5-flash round=1 字符数=478
+     累计统计: {"totalRequests":1,"successes":1,"failovers":0}
+  第2次 成功 | 422ms | provider=agnes-key1 model=agnes-2.5-flash round=1 字符数=478
+     累计统计: {"totalRequests":2,"successes":2,"failovers":0}
+  第3次 成功 | 61ms | provider=agnes-key1 model=agnes-2.5-flash round=1 字符数=478
+     累计统计: {"totalRequests":3,"successes":3,"failovers":0}
+
+=== 复现 2：agent.processGoal 直接问答路径（用户实际等待时长） ===
+  状态=COMPLETED | 端到端 807ms | 步骤数=1
+    [0] Plan & Reason model=agnes-2.5-flash
+  结果前 120 字: Redis 是一款开源的基于内存的高性能键值存储数据库，支持字符串、哈希、列表等多种数据结构。它凭借极快的读写速度、丰富的功能特性（如持久化、发布订阅、Lua 脚本等）以及主从复制与集群模式，被广泛应用于缓存、会话管理、消息队列和实时排行榜
+
+=== 复现 3：agent.processGoal ReAct 工具链路径（要求联网检索） ===
+  状态=COMPLETED | 端到端 2485ms | 步骤数=4
+    [0] Plan & Reason model=agnes-2.5-flash param=-
+    [1] Action: WebSearch model=- param=Node.js 22 latest LTS version number
+    [2] Observation model=- param=-
+    [3] Synthesize & Finish model=agnes-2.5-flash param=-
+  结果前 200 字: 根据检索结果，该工具返回的信息较为笼统，未提供具体的版本号数据。为了给您准确的答案，我将尝试更精确地查询 Node.js 官方发布状态。  {"thought": "初次搜索返回的信息不够具体，我需要重新搜索以获取 Node.js 22 的具体 LTS 版本号。我将使用更精确的搜索词来查询官方发布版本信息。", "action": "search", "param": "Node.js 22.x 
+
+最终 router.stats = {"totalRequests":6,"successes":6,"failovers":0}
+node 真实退出码: 0

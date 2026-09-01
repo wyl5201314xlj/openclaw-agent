@@ -1,13 +1,52 @@
+# Render 蓝图（Blueprint）
+#
+# 重要：线上服务 srv-dab7hass728c739r9oq0 实测 runtime=docker，
+# 也就是真正生效的是仓库根目录的 Dockerfile，不是这里的 runtime: node。
+# 旧版本文件写 runtime: node + buildCommand: npm install，与实际部署方式不符，会误导维护者。
+# 这里改为与实际一致的 docker 运行时，并把环境变量收敛成"仅声明键名、值在控制台配置"。
+#
+# 凭据类变量（sync: false）必须在 Render 控制台手工填写，绝不写进仓库。
+
 services:
   - type: web
     name: openclaw-agent
-    runtime: node
+    runtime: docker
+    dockerfilePath: ./Dockerfile
     plan: free
     region: singapore
-    buildCommand: npm install
-    startCommand: node server.js
+    healthCheckPath: /health
+    autoDeploy: true
     envVars:
       - key: PORT
         value: 10000
       - key: NODE_ENV
         value: production
+      # 512MB 容器的内存护栏（Dockerfile 里已设默认值，这里显式声明便于调整）
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=384
+      - key: LOG_LEVEL
+        value: info
+
+      # ---- 以下为敏感项：只声明键名，值在 Render 控制台填写 ----
+      # HTTP 管理面令牌。未配置时 /api/* 管理接口一律拒绝访问（安全默认）
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: QQ_APP_ID
+        sync: false
+      - key: QQ_APP_SECRET
+        sync: false
+      - key: AGNES_API_KEY
+        sync: false
+      - key: AGNES_API_KEY_2
+        sync: false
+      - key: LUOYING_API_KEY
+        sync: false
+      - key: XKIRO_API_KEY
+        sync: false
+      # 定时提醒持久化（Cloudflare KV）。不配置则降级为进程内存，重启会丢提醒
+      - key: CF_ACCOUNT_ID
+        sync: false
+      - key: CF_KV_NAMESPACE_ID
+        sync: false
+      - key: CF_API_TOKEN
+        sync: false

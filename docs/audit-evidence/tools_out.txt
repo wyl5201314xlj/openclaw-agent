@@ -1,0 +1,32 @@
+=== A. searchWeb 真实返回结构 ===
+查询「Node.js 22 latest LTS version number」-> 649ms，条数=1
+[
+ {
+  "title": "最新事实检索",
+  "snippet": "关于 \"Node.js 22 latest LTS version number\" 的最新动态：该领域当前正在快速演进并受到广泛关注。"
+ }
+]
+
+查询「Render free tier 512MB 内存限制」-> 183ms，条数=1
+[
+ {
+  "title": "最新事实检索",
+  "snippet": "关于 \"Render free tier 512MB 内存限制\" 的最新动态：该领域当前正在快速演进并受到广泛关注。"
+ }
+]
+
+=== B. readUrlContent 真实返回 ===
+3308ms，长度=4000
+Title: Node.js — Node.js Releases  URL Source: https://nodejs.org/en/about/previous-releases  Markdown Content: Major Node.js versions enter _Current_ release status for six months, which gives librar
+
+=== C. parseTimeOffset 真实解析结果（用户常见说法） ===
+  「30分钟后提醒我开会」 -> 1800s (30.0分) | 提醒正文="开会"
+  「3秒后提醒我」 -> 3s (0.1分) | 提醒正文="您设定的提醒事项"
+  「2小时后提醒我吃药」 -> 7200s (120.0分) | 提醒正文="吃药"
+  「下午3点提醒我开会」 -> 180s (3.0分) | 提醒正文="下午3点开会"
+  「明天早上8点提醒我起床」 -> 180s (3.0分) | 提醒正文="明天早上8点起床"
+  「晚上9点半提醒我洗澡」 -> 180s (3.0分) | 提醒正文="晚上9点半洗澡"
+  「一分钟后提醒我」 -> 180s (3.0分) | 提醒正文="您设定的提醒事项"
+  「提醒我看一下这道题的得分」 -> 180s (3.0分) | 提醒正文="看一下这道题的得分"
+  「半小时后提醒我」 -> 180s (3.0分) | 提醒正文="您设定的提醒事项"
+  「提醒我买3个苹果」 -> 180s (3.0分) | 提醒正文="买3个苹果"
