@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw AI Agent 7x24h 任务调度中枢</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #131b2e;
+      --card-border: #1f2d4d;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --success: #10b981;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      padding: 24px;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
+    }
+    .logo-box { display: flex; align-items: center; gap: 12px; }
+    .logo-badge {
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      color: #000;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+    h1 { font-size: 22px; font-weight: 700; }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+    
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .input-box {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    input[type="text"] {
+      flex: 1;
+      background: #0b1120;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    input[type="text"]:focus { border-color: var(--accent); }
+    button {
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover { opacity: 0.9; box-shadow: 0 0 12px var(--accent-glow); }
+    
+    .task-list { display: flex; flex-direction: column; gap: 12px; }
+    .task-item {
+      background: #0b1120;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+    .task-header { display: flex; justify-content: space-between; margin-bottom: 8px; color: var(--text-muted); font-size: 12px; }
+    .task-goal { font-weight: 600; color: #fff; margin-bottom: 8px; }
+    .task-result {
+      background: rgba(56, 189, 248, 0.05);
+      border-left: 3px solid var(--accent);
+      padding: 8px 12px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #e2e8f0;
+    }
+    
+    .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { color: var(--text-muted); }
+    .stat-val { font-weight: 600; font-family: 'JetBrains Mono', monospace; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-box">
+        <span class="logo-badge">OPENCLAW</span>
+        <h1>7x24h 分布式多云 AI Agent 中枢</h1>
+      </div>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span id="uptime-text">7x24h 在线运行中</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div>
+        <div class="card">
+          <div class="card-title">🎯 下发 Agent 智能体自主任务</div>
+          <div class="input-box">
+            <input type="text" id="goal-input" placeholder="输入目标，例如：搜索 2026 年最新的 AI Agent 架构研报并总结...">
+            <button onclick="dispatchTask()">下发任务</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📋 任务流水线与执行日志</div>
+          <div id="task-container" class="task-list">
+            <div style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 20px;">暂无任务，请在上方输入任务指令</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-title">📊 节点拓扑与多云健康度</div>
+          <div class="stat-row">
+            <span class="stat-label">主运行环境</span>
+            <span class="stat-val" style="color: var(--accent);">Render 新加坡 Linux 容器 (512MB)</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">推理大脑</span>
+            <span class="stat-val">落樱/xkiro 60s循环容灾</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">结构化状态库</span>
+            <span class="stat-val">HelioHost MySQL (1GB)</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">大文件产出仓储</span>
+            <span class="stat-val">InfinityFree 5GB 空间</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">保活心跳来源</span>
+            <span class="stat-val" style="color: var(--success);">GitHub Actions (8-10min)</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">当前内存开销</span>
+            <span class="stat-val" id="mem-stat">~32 MB (极轻量)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function fetchTasks() {
+      try {
+        const res = await fetch('/api/tasks');
+        const data = await res.json();
+        renderTasks(data.tasks || []);
+      } catch (e) {}
+    }
+
+    function renderTasks(tasks) {
+      const container = document.getElementById('task-container');
+      if (tasks.length === 0) return;
+      container.innerHTML = tasks.map(t => `
+        <div class="task-item">
+          <div class="task-header">
+            <span>ID: ${t.id}</span>
+            <span style="color: ${t.status === 'COMPLETED' ? '#10b981' : (t.status === 'RUNNING' ? '#38bdf8' : '#ef4444')}">${t.status}</span>
+          </div>
+          <div class="task-goal">${escapeHtml(t.goal)}</div>
+          ${t.result ? `<div class="task-result">${escapeHtml(t.result)}</div>` : '<div style="color: #94a3b8;">正在思考与调用工具...</div>'}
+        </div>
+      `).join('');
+    }
+
+    async function dispatchTask() {
+      const input = document.getElementById('goal-input');
+      const goal = input.value.trim();
+      if (!goal) return;
+      input.value = '';
+      try {
+        await fetch('/api/dispatch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ goal })
+        });
+        fetchTasks();
+      } catch (e) {
+        alert('下发失败: ' + e.message);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    setInterval(fetchTasks, 3000);
+    fetchTasks();
+  </script>
+</body>
+</html>
