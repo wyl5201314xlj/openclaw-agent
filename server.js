@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const agent = require('./lib/agent_engine');
 const router = require('./lib/model_router');
+const qqBot = require('./lib/qq_bot');
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -18,6 +19,7 @@ app.get('/health', (req, res) => {
   res.json({
     status: 'HEALTHY',
     service: 'OpenClaw Agent Orchestrator',
+    qqBotConnected: qqBot.isConnected,
     timestamp: new Date().toISOString(),
     memoryUsageMB: (process.memoryUsage().rss / 1024 / 1024).toFixed(2),
     stats: router.stats
@@ -34,7 +36,6 @@ app.post('/api/dispatch', async (req, res) => {
   const { goal } = req.body;
   if (!goal) return res.status(400).json({ error: 'goal is required' });
   
-  // 异步执行任务
   agent.processGoal(goal);
   res.json({ message: 'Task dispatched successfully', timestamp: Date.now() });
 });
@@ -42,4 +43,7 @@ app.post('/api/dispatch', async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`[OpenClaw] Agent Server is running on port ${PORT}`);
   console.log(`[OpenClaw] Health Check endpoint: http://0.0.0.0:${PORT}/health`);
+  
+  // 启动专属 QQ 机器人长连接网关
+  qqBot.connect();
 });
