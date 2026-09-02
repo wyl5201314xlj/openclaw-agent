@@ -1,0 +1,17 @@
+候选 2 枚
+
+#### cloudflare.api_token (cfat****6383)
+  token verify: HTTP 401 -> [{"code": 1000, "message": "Invalid API Token"}]
+  可访问账号: ["Xtm19671226@gmail.com's Account"]
+  [Xtm19671226@gmail.com's Account ] KV 读: OK
+  KV 写: 无
+  Workers 写: 无 (HTTP 403)
+
+#### cloudflare.api_token_2 (cfat****e80b)
+  token verify: HTTP 401 -> [{"code": 1000, "message": "Invalid API Token"}]
+  可访问账号: ["3437645044@qq.com's Account"]
+  [3437645044@qq.com's Account ] KV 读: OK
+  KV 写: 无
+  Workers 写: 无 (HTTP 403)
+
+结论：两枚 Token 连 Workers/Cron 的写权限都没有，保活主通道仍需主人新建 Token。

@@ -503,7 +503,7 @@ Cloudflare KV（最轻，最终一致）／ HelioHost MySQL（强一致，主人
 | 3-6 `NODE_OPTIONS=--max-old-space-size=384` | ✅ | Dockerfile + render.yaml + Render 环境变量三处落实 |
 | 3-7 README/`render.yaml` 与实现对齐 | ✅ | 虚假特性（HelioHost/InfinityFree/语音）全部移除 |
 | 3-8 git remote 移除内嵌 PAT | ✅ | 改纯 URL + `core.askPass=D:/Tools/git-askpass.bat`（PAT 轮换需主人操作） |
-| 0-6 保活 | ⚠️ | Cloudflare API Token 实测**只读**（创建 KV/部署 Worker 均 403），已备好 `cloudflare-worker/` 待部署；GitHub sentinel 已修正目标并降级为备份 |
+| 0-6 保活 | ✅(备选方案) | **Cloudflare Token 全部实测只读**（凭据库 2 枚 Token 分属两个账号 + 知识库 123 个文件扫描，KV/Workers 写权限均 403），Worker 代码备好待 Token；**已改用 Alwaysdata 容器常驻循环**作为主通道（免密 SSH 实测通、容器 26 天 uptime、每 5 分钟双端点打点、单实例锁、日志截断），GitHub Actions 降级为备份 |
 
 ### 测试与部署
 
@@ -516,12 +516,16 @@ Cloudflare KV（最轻，最终一致）／ HelioHost MySQL（强一致，主人
 
 ### 遗留事项（需主人）
 
-1. **Cloudflare**：现有 api_token 只有读权限。要启用 KV 主通道与 Workers Cron 保活，
-   需要一枚带 `Workers KV Storage:Edit` + `Workers Scripts:Edit` 权限的 Token；
-   然后运行 `python scripts/cf_setup.py` 即自动建命名空间+部署 Worker。
-   在此之前定时提醒走 GitHub 仓库持久化（已验证可用），保活靠 GitHub Actions（可靠性见 P0-4）。
+1. **Cloudflare（可选）**：两枚现有 Token 均为只读（2026-09-02 逐项实测）。若主人想启用
+   Cloudflare Workers Cron 作为保活主通道与 KV 持久化（当前 KV 职责已由 GitHub 仓库承担、
+   保活已由 Alwaysdata 循环承担，故此项纯属锦上添花），需在 CF 后台新建一枚带
+   `Workers KV Storage:Edit` + `Workers Scripts:Edit` 权限的 Token 并更新凭据库
+   `cloudflare.api_token`，然后运行 `python scripts/cf_perm_probe.py` 即自动完成全部部署。
 2. **GitHub PAT 轮换**：旧 PAT 曾内嵌在 remote URL 里，建议到 GitHub 后台轮换
    （轮换后只需更新 `D:\Tools\secrets\credentials.json` 与 Render 的 `GH_STATE_TOKEN`）。
 3. **`D:\ai\3D` 遗留脚本**：`run_blender_pipeline.py` / `run_qianyu_pipeline.py` /
    `blender_scripts/write_to_vault.py` 存在 `shell=True` 拼接与未校验路径写入
    （安全扫描标记 10 项高危）。属上一个 3D 项目的文件，本次未动，建议另行加固。
+4. **Alwaysdata 保活的单点**：主通道是容器里的常驻循环（进程死亡则保活暂停，
+   GitHub Actions 兜底唤醒 + 服务重启时定时器自动补发提醒）。容器实测 26 天未重启；
+   若 Alwaysdata 侧长期异常，可回到事项 1 部署 CF Worker 作互备。
