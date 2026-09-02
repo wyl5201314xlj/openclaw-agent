@@ -1,0 +1,19 @@
+[PASS] health 新版标记 service=OpenClaw Agent rss=72.5MB
+[PASS] QQ 网关重连 qqBotConnected=True
+[PASS] 无 token 全部 401/403 tasks=401 status=401 dispatch=401
+[PASS] health 保持公开（保活可用） HTTP 200
+[PASS] status 鉴权通过 rss=73.7MB 链=9条
+--- selftest ok (37175 ms) ---
+  [OK] model                 390ms  {"target": "agnes-key2/agnes-2.0-flash", "firstByteMs": 388, "totalMs": 390, "streamed": true, "content": "正常"
+  [OK] search-sources      19783ms  {"web": [{"name": "bing", "ok": false, "count": 0, "ms": 246}, {"name": "ddg-lite", "ok": false, "count": 0, "
+  [OK] search-e2e          13531ms  {"count": 2, "elapsedMs": 13529, "top": [{"source": "wikipedia-zh", "title": "長期支援", "url": "https://zh.wikipe
+  [OK] reader                652ms  {"via": "jina-reader", "chars": 6000}
+  [OK] ssrf-guard              1ms  {"checked": 4, "allRejected": true}
+  [OK] store                2818ms  {"ok": true, "mode": "github-repo", "detail": "写入-读回-删除全链路通过"}
+  [OK] qq-credential           0ms  {"appId": "1905540663", "tokenReady": true, "gateway": {"connected": true, "sessionId": "ae00453c…", "lastSeq"
+[PASS] selftest 核心项全过（store 可为降级前例外） []
+[PASS] dispatch 同步返回 1258ms steps=1 cached=False
+[PASS] 回答无裸 JSON 泄漏 消息队列是一种异步通信机制，允许发送方将消息存入队列，接收方按序取用，从而实现系统间的解耦、流量削峰和异步处理。
+[PASS] timers 接口 pending=0 mode=github-repo
+
+==== 线上验收: 9/9 通过 ====

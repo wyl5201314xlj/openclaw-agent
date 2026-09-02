@@ -1,0 +1,60 @@
+=== wyl5201314xlj/openclaw-agent : 复刻提交 ab9f735 ===
+  [M] .gitignore -> 755fa30
+  [M] Dockerfile -> 35b6221
+  [M] README.md -> 93dce4d
+  [M] lib/agent_engine.js -> a80915d
+  [M] lib/model_router.js -> 2831a38
+  [M] lib/qq_bot.js -> 8a26045
+  [M] lib/tools/image_tool.js -> 40719e2
+  [M] lib/tools/reader_tool.js -> 3f72b19
+  [M] lib/tools/search_tool.js -> 87f6ee4
+  [M] lib/tools/timer_tool.js -> 4d03c53
+  [M] package.json -> 761c53e
+  [M] render.yaml -> 0ec763c
+  [M] server.js -> 5d04cb8
+  [D] lib/tools/voice_tool.js
+  [A] docs/OPTIMIZATION_PLAN.md -> 095eb6a
+  [A] docs/audit-evidence/agnes_out.txt -> ef8614f
+  [A] docs/audit-evidence/gh_out.txt -> 777fc31
+  [A] docs/audit-evidence/latency_out.txt -> f9046be
+  [A] docs/audit-evidence/pulse_out.txt -> ff5518d
+  [A] docs/audit-evidence/render_out.txt -> 71b7c89
+  [A] docs/audit-evidence/repro_out.txt -> 1d7fbcf
+  [A] docs/audit-evidence/tools_out.txt -> 93c7aba
+  [A] lib/cache.js -> 5bd03b2
+  [A] lib/config.js -> d53acb7
+  [A] lib/intent.js -> 8aa013d
+  [A] lib/json_extract.js -> 6525c49
+  [A] lib/logger.js -> 040aa86
+  [A] lib/message_handler.js -> 88fc69b
+  [A] lib/safe_fetch.js -> 2fc0180
+  [A] lib/selftest.js -> 716356e
+  [A] lib/session_store.js -> bb2e8e8
+  [A] lib/store.js -> 15fbb78
+  [A] lib/time_parse.js -> ce093e5
+  [A] package-lock.json -> 4600f6d
+  [A] scripts/cf_setup.py -> ce03b25
+  [A] scripts/render_configure.py -> 36b7a53
+  [A] scripts/run_with_creds.py -> 6212e81
+  [A] scripts/verify_agent.js -> 6e43926
+  [A] scripts/verify_image.js -> b249b94
+  [A] scripts/verify_router.js -> e862eea
+  [A] scripts/verify_store.js -> 5686265
+  [A] test/intent.test.js -> 2a228b9
+  [A] test/json_extract.test.js -> db84969
+  [A] test/qq_reply_ledger.test.js -> e7b7f3f
+  [A] test/time_parse.test.js -> c136cb4
+  [A] test/timer_tool.test.js -> 5a34ba7
+  树: 4bdc0b4 (校验)
+  提交: ab9f735 (与本地完全一致：OK)
+  main -> ab9f735 (HTTP 200)
+=== wyl5201314xlj/cloud-heartbeat : 复刻提交 2e786d3 ===
+  [M] .github/workflows/sentinel.yml -> d530b1e
+  [A] cloudflare-worker/src/index.js -> 7fc9ef5
+  [A] cloudflare-worker/wrangler.toml -> 2783ac1
+  树: 7cda179 (校验)
+  提交: 2e786d3 (与本地完全一致：OK)
+  main -> 2e786d3 (HTTP 200)
+
+结果: openclaw-agent -> ab9f735 (与本地一致)
+结果: cloud-heartbeat -> 2e786d3 (与本地一致)

@@ -1,0 +1,22 @@
+=== 1. KV 命名空间 ===
+创建 KV 命名空间失败（Token 可能只有 KV Read 权限）: [{"code": 10000, "message": "Authentication error"}]
+
+=== 2. KV 读写探测 ===
+跳过：没有可用的命名空间
+
+=== 3. 上传保活 Worker ===
+上传 -> HTTP 403 success=False
+  详情: [{"code": 10000, "message": "Authentication error", "documentation_url": "https://developers.cloudflare.com/api/resources/workers/subresources/scripts/methods/update"}]
+
+=== 4. Cron 触发器（每 5 分钟）===
+设置 -> HTTP 403 success=False result=null
+  详情: [{"code": 10000, "message": "Authentication error", "documentation_url": "https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/schedules/methods/update"}]
+
+=== 5. workers.dev 子域 ===
+启用 -> HTTP 403 success=False
+Worker 访问地址: https://openclaw-keepalive.wyf886.workers.dev
+
+=== 汇总：需要写入 Render 环境变量的键 ===
+CF_ACCOUNT_ID       = 9aea49***（完整值在凭据库）
+CF_KV_NAMESPACE_ID  = None
+CF_API_TOKEN        = （复用凭据库里的 cloudflare.api_token，本脚本不回显）
