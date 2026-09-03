@@ -180,15 +180,14 @@ app.get('/api/selftest', requireAdmin, rateLimit(6, 60000), async (req, res) => 
 app.all(['/sub/shadowrocket', '/sub/clash', '/sub'], rateLimit(60, 60000), (req, res) => {
   try {
     const token = String(req.query.token || req.get('x-sub-token') || '').trim();
-    
-    // 双 Token 宽容鉴权：同时支持服务端的 ADMIN_TOKEN 和主人填入的 rnd_... API Key
-    const validTokens = [
-      config.adminToken,
-      'rnd_lzLvZTrKkmfAOGSIKYwAud9HvK8c',
-      '-g2BH3LYOsyoHpZY_xy36dgUde4nS2T7mNyPPpws63g'
-    ].filter(Boolean);
 
-    const isAuthorized = validTokens.some(t => safeEqual(token, t));
+    // 订阅鉴权：只从环境变量 SUB_TOKENS 读取（逗号分隔多 token），源码不落任何密钥。
+    // 为空时直接 503，绝不放行。
+    const subTokens = String(process.env.SUB_TOKENS || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (subTokens.length === 0) {
+      return res.status(503).type('text/plain').send('# 503 Service Unavailable: subscription not configured\n');
+    }
+    const isAuthorized = subTokens.some(t => safeEqual(token, t));
     if (!isAuthorized) {
       return res.status(403).type('text/plain').send('# 403 Forbidden: Invalid subscription token\n');
     }
@@ -227,13 +226,12 @@ app.all(['/sub/shadowrocket', '/sub/clash', '/sub'], rateLimit(60, 60000), (req,
 
 app.all('/sub/refresh', rateLimit(10, 60000), async (req, res) => {
   const token = String(req.query.token || req.get('x-sub-token') || '').trim();
-  const validTokens = [
-    config.adminToken,
-    'rnd_lzLvZTrKkmfAOGSIKYwAud9HvK8c',
-    '-g2BH3LYOsyoHpZY_xy36dgUde4nS2T7mNyPPpws63g'
-  ].filter(Boolean);
+  const subTokens = String(process.env.SUB_TOKENS || '').split(',').map(s => s.trim()).filter(Boolean);
+  if (subTokens.length === 0) {
+    return res.status(503).json({ error: 'subscription not configured' });
+  }
 
-  if (!validTokens.some(t => safeEqual(token, t))) {
+  if (!subTokens.some(t => safeEqual(token, t))) {
     return res.status(403).json({ error: 'Forbidden' });
   }
 
