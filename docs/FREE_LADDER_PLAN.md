@@ -61,7 +61,7 @@
 |---|--------|--------|--------|------|
 | 4-1 | rateLimit 改固定窗口计数器，不再整表 clear | server.js 71-84 | key 照旧，值改 {count, windowStart}，窗口过期自然重置 | 压测不再被刷掉 |
 | 4-2 | 新增回归测试：早报不崩、TLS 分级、评分冷冻、分流规则存在 | test/ 下新增 | 断言 generateCleanMorningDigest 不抛错等 | npm test 全过 |
-| 4-3 | 最终部署 + 线上 selftest + 归档证据 | — | 同既有流程 | 线上 9/9 通过口径 |
+| 4-3 | 最终部署 + 线上 selftest + 归档证据 | — | 同既有流程 | 线上 selftest 全部检查项通过（实际 7 项：model/search-sources/search-e2e/reader/ssrf-guard/store/qq-credential；deep 生图项默认跳过） |
 
 ---
 
