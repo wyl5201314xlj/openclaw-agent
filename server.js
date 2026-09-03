@@ -33,6 +33,9 @@ const nodeScheduler = require('./lib/node_scheduler');
 const log = createLogger('Server');
 const app = express();
 
+// Render 在反向代理后面，必须信任 X-Forwarded-For 才能拿到真实客户端 IP；
+// 否则所有用户共享同一个限速 key，一人刷爆连累所有人。
+app.set('trust proxy', 1);
 app.disable('x-powered-by');
 app.use(cors());
 app.use(express.json({ limit: '64kb' }));
