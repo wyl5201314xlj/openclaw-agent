@@ -66,19 +66,35 @@ function requireAdmin(req, res, next) {
   return next();
 }
 
-/** 简易滑动窗口限速，防止免费实例被公网刷爆 */
+/** 固定窗口限速，防止免费实例被公网刷爆。
+ * 4-1：旧版按时间戳数组过滤 + size>2000 整表 clear，可被随机 IP 刷掉；
+ * 改为每 key 一个 {count, windowStart} 计数器，窗口过期自然重置，
+ * 条目带 lastSeen 做惰性淘汰，不再整表清空。 */
 const rateBuckets = new Map();
+const RATE_MAX_KEYS = 2000;
 function rateLimit(limit, windowMs) {
   return (req, res, next) => {
     const key = `${req.ip}:${req.path}`;
     const now = Date.now();
-    const hits = (rateBuckets.get(key) || []).filter((t) => now - t < windowMs);
-    if (hits.length >= limit) {
+    let entry = rateBuckets.get(key);
+    if (!entry || now - entry.windowStart >= windowMs) {
+      entry = { count: 0, windowStart: now, lastSeen: now };
+      rateBuckets.set(key, entry);
+    }
+    entry.lastSeen = now;
+    if (entry.count >= limit) {
       return res.status(429).json({ error: `请求过于频繁，请 ${Math.ceil(windowMs / 1000)} 秒后再试` });
     }
-    hits.push(now);
-    rateBuckets.set(key, hits);
-    if (rateBuckets.size > 2000) rateBuckets.clear();
+    entry.count++;
+    // 惰性淘汰：超上限时删最久未见的 key，不再整表 clear
+    if (rateBuckets.size > RATE_MAX_KEYS) {
+      let oldestKey = null;
+      let oldestSeen = Infinity;
+      for (const [k, v] of rateBuckets) {
+        if (v.lastSeen < oldestSeen) { oldestSeen = v.lastSeen; oldestKey = k; }
+      }
+      if (oldestKey !== null && oldestKey !== key) rateBuckets.delete(oldestKey);
+    }
     return next();
   };
 }
