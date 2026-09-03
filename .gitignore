@@ -5,3 +5,11 @@ node_modules/
 
 # 本地验证产生的临时输出
 .tmp/
+
+# 节点运行时数据
+data/
+test_real_pipeline.js
+*.json
+!package.json
+!package-lock.json
+!model_benchmark_results.json

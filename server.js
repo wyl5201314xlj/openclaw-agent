@@ -26,6 +26,9 @@ const searchTool = require('./lib/tools/search_tool');
 const readerTool = require('./lib/tools/reader_tool');
 const { createHandler } = require('./lib/message_handler');
 const { runSelfTest } = require('./lib/selftest');
+const nodeStore = require('./lib/node_store');
+const nodeScheduler = require('./lib/node_scheduler');
+
 
 const log = createLogger('Server');
 const app = express();
@@ -169,6 +172,29 @@ app.get('/api/selftest', requireAdmin, rateLimit(6, 60000), async (req, res) => 
   }
 });
 
+
+// ---------------- 小火箭专属私密订阅端点 ----------------
+
+app.get('/sub/shadowrocket', rateLimit(30, 60000), (req, res) => {
+  const token = req.query.token || req.get('x-sub-token') || '';
+  if (!config.adminToken || !safeEqual(token, config.adminToken)) {
+    return res.status(403).type('text/plain').send('# 403 Forbidden: Invalid subscription token\n');
+  }
+
+  const subBase64 = nodeStore.generateShadowrocketSubscription();
+  res.set({
+    'Content-Type': 'text/plain; charset=utf-8',
+    'Subscription-Userinfo': 'upload=0; download=0; total=107374182400; expire=0',
+    'Profile-Update-Interval': '6',
+    'Cache-Control': 'no-cache',
+  });
+  return res.send(subBase64);
+});
+
+app.get('/sub/stats', requireAdmin, (req, res) => {
+  return res.json(nodeStore.getSummaryStats());
+});
+
 app.use((req, res) => res.status(404).json({ error: '接口不存在' }));
 
 // eslint-disable-next-line no-unused-vars
@@ -195,6 +221,7 @@ async function shutdown(signal) {
   log.warn(`收到 ${signal}，开始优雅关闭`);
   qqBot.shutdown();
   timerTool.stop();
+  nodeScheduler.stop();
   if (server) {
     await new Promise((resolve) => server.close(resolve));
   }
@@ -230,6 +257,7 @@ async function bootstrap() {
   // 先重建定时提醒（补发休眠期间错过的），再连 QQ 网关
   await timerTool.start();
   await qqBot.connect();
+  nodeScheduler.start();
 }
 
 bootstrap().catch((err) => {
