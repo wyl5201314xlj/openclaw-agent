@@ -1,0 +1,127 @@
+port: 7890
+socks-port: 7891
+allow-lan: false
+mode: rule
+log-level: info
+external-controller: 127.0.0.1:9090
+
+proxies:
+  - name: "🇨🇳 国内BGP中转 | VMESS (79ms)"
+    type: vmess
+    server: fullaccesstohongkongnet.azurewebsites.net
+    port: 443
+    uuid: 274f11c6-f69b-40b9-8966-f39e06e97be7
+    alterId: 0
+    cipher: auto
+    tls: true
+    udp: true
+    skip-cert-verify: true
+    network: ws
+    ws-opts:
+      path: "/ws"
+      headers:
+        Host: "fullaccesstohongkongnet.azurewebsites.net"
+  - name: "🇨🇳 国内BGP中转 | VMESS (46ms)"
+    type: vmess
+    server: yh2.dtku41.xyz
+    port: 8080
+    uuid: 9258153a-dc97-4e39-9037-009abfc4fed0
+    alterId: 0
+    cipher: auto
+    tls: false
+    udp: true
+    network: ws
+    ws-opts:
+      path: "9258153a-dc97-4e39-9037-009abfc4fed0-vm"
+      headers:
+        Host: "per-essex-patterns-bowling.trycloudflare.com"
+  - name: "🇨🇳 国内BGP中转 | VMESS (40ms)"
+    type: vmess
+    server: yh1.dtku41.xyz
+    port: 8080
+    uuid: 34c0bb5e-c120-432d-9c58-bd7d82c7397b
+    alterId: 0
+    cipher: auto
+    tls: false
+    udp: true
+    network: ws
+    ws-opts:
+      path: "34c0bb5e-c120-432d-9c58-bd7d82c7397b-vm"
+      headers:
+        Host: "uh-lawyers-instruments-kernel.trycloudflare.com"
+  - name: "🇨🇳 国内BGP中转 | VMESS (661ms)"
+    type: vmess
+    server: 103.240.197.112
+    port: 55314
+    uuid: bdb68629-1c6a-4eed-8083-7d4379a2dd52
+    alterId: 0
+    cipher: auto
+    udp: true
+    skip-cert-verify: true
+    network: tcp
+  - name: "🇨🇳 国内BGP中转 | VMESS (98ms)"
+    type: vmess
+    server: 112.132.215.108
+    port: 50002
+    uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+    alterId: 64
+    cipher: auto
+    udp: true
+    skip-cert-verify: true
+    network: tcp
+  - name: "🇨🇳 国内BGP中转 | VMESS (37ms)"
+    type: vmess
+    server: 8.210.206.163
+    port: 45719
+    uuid: a220dad2-a34e-4460-b0f7-eaba9c46e639
+    alterId: 0
+    cipher: auto
+    udp: true
+    skip-cert-verify: true
+    network: http
+
+proxy-groups:
+  - name: 🚀 节点选择
+    type: select
+    proxies:
+      - ⚡ 自动选择
+      - DIRECT
+      - "🇨🇳 国内BGP中转 | VMESS (79ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (46ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (40ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (661ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (98ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (37ms)"
+
+  - name: ⚡ 自动选择
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    proxies:
+      - "🇨🇳 国内BGP中转 | VMESS (79ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (46ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (40ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (661ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (98ms)"
+      - "🇨🇳 国内BGP中转 | VMESS (37ms)"
+
+dns:
+  enable: true
+  nameserver:
+    - 223.5.5.5
+    - 8.8.8.8
+  fallback:
+    - 8.8.8.8
+    - 1.1.1.1
+
+rules:
+  - GEOIP,CN,DIRECT
+  - DOMAIN-SUFFIX,wechat.com,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-SUFFIX,bilibili.com,DIRECT
+  - DOMAIN-SUFFIX,alicdn.com,DIRECT
+  - DOMAIN-SUFFIX,163.com,DIRECT
+  - DOMAIN-SUFFIX,csdn.net,DIRECT
+  - DOMAIN-SUFFIX,zhihu.com,DIRECT
+  - DOMAIN-SUFFIX,taobao.com,DIRECT
+  - MATCH,🚀 节点选择
