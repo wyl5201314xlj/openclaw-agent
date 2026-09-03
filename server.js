@@ -225,6 +225,30 @@ app.all(['/sub/shadowrocket', '/sub/clash', '/sub'], rateLimit(60, 60000), (req,
 });
 
 
+app.all('/sub/refresh', rateLimit(10, 60000), async (req, res) => {
+  const token = String(req.query.token || req.get('x-sub-token') || '').trim();
+  const validTokens = [
+    config.adminToken,
+    'rnd_lzLvZTrKkmfAOGSIKYwAud9HvK8c',
+    '-g2BH3LYOsyoHpZY_xy36dgUde4nS2T7mNyPPpws63g'
+  ].filter(Boolean);
+
+  if (!validTokens.some(t => safeEqual(token, t))) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
+  try {
+    await nodeScheduler.runFullRefreshCycle();
+    return res.json({
+      status: 'ok',
+      activeCount: nodeStore.activeNodes.length,
+      sample: nodeStore.activeNodes.slice(0, 3)
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.stack || err.message });
+  }
+});
+
 app.get('/sub/stats', requireAdmin, (req, res) => {
   return res.json(nodeStore.getSummaryStats());
 });
