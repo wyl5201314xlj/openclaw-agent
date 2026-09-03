@@ -192,6 +192,7 @@ app.all(['/sub/shadowrocket', '/sub/clash', '/sub'], rateLimit(60, 60000), (req,
     return res.status(403).type('text/plain').send('# 403 Forbidden: Invalid subscription token\n');
   }
   const userAgent = String(req.get('user-agent') || '').toLowerCase();
+  const format = String(req.query.format || '').toLowerCase();
   const isClash = req.path.includes('clash') || format === 'clash' || userAgent.includes('clash') || userAgent.includes('mihomo');
 
   if (isClash) {
