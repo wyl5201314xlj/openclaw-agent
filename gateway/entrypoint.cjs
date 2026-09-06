@@ -65,6 +65,18 @@ const config = {
   plugins: {
     entries: {
       'openclaw-qqbot': { enabled: true },
+      // 512MB 免费实例内存吃紧（RSS 曾达 339MB 触发 critical），显式关闭
+      // 与 QQ 聊天无关的重插件；模型适配走 models.providers（Agnes），保留 openai 适配器
+      browser: { enabled: false },
+      canvas: { enabled: false },
+      'cua-computer': { enabled: false },
+      'talk-voice': { enabled: false },
+      geolocation: { enabled: false },
+      'device-pair': { enabled: false },
+      'file-transfer': { enabled: false },
+      ollama: { enabled: false },
+      xai: { enabled: false },
+      anthropic: { enabled: false },
     },
   },
 };
