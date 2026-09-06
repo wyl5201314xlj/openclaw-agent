@@ -38,6 +38,10 @@ const config = {
     // "不可归因的代理流量"并对所有管理路由回 403 proxy_attribution_required。
     // 把 loopback 列为受信代理即可恢复管理 API（鉴权仍由 auth.mode=token 把关）。
     trustedProxies: ['127.0.0.1', '::1'],
+    // cron/automations 默认被 POST /tools/invoke 屏蔽（owner-only）。显式放行后
+    // 可用共享令牌直接注册/查询定时任务，用于独立验证闹钟链路是否真的落地，
+    // 不必依赖模型自觉完成两段调用。共享令牌本身即全权 operator 凭据，不外泄。
+    tools: { allow: ['cron'] },
   },
   models: {
     // 每次启动都会拉取云端模型目录，实测把 auth 阶段拖到 13.1 秒（占单轮延迟约 1/5），
