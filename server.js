@@ -295,7 +295,13 @@ async function bootstrap() {
 
   // 先重建定时提醒（补发休眠期间错过的），再连 QQ 网关
   await timerTool.start();
-  await qqBot.connect();
+  if (process.env.QQ_WS_DISABLED === '1') {
+    // 推送专用模式：不抢 QQ WebSocket（同一机器人仅允许一条 WS，交互已由官方 OpenClaw 网关持有），
+    // 主动消息走 REST 队列（drain 只依赖令牌桶，不依赖 WS）
+    log.info('QQ_WS_DISABLED=1：跳过 WebSocket 连接，仅保留 REST 主动推送模式');
+  } else {
+    await qqBot.connect();
+  }
 
   // 热点资讯定时推送（每天 HOTNEWS_SCHEDULE，北京时间）
   if (config.hotnews.enabled) {
