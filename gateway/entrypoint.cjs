@@ -7,6 +7,9 @@ const { spawn } = require('node:child_process');
 
 const CONFIG_PATH = process.env.OPENCLAW_CONFIG_PATH || '/var/lib/openclaw/openclaw.json';
 const MODEL_ID = process.env.AGNES_MODEL_ID || 'agnes-2.5-flash';
+const WORKSPACE = process.env.OPENCLAW_WORKSPACE || '/var/lib/openclaw/workspace';
+// 容器时区为 UTC，若不显式声明用户时区，「每天8点」会按 UTC 落到北京时间 16 点
+const USER_TZ = process.env.USER_TIMEZONE || 'Asia/Shanghai';
 
 function fail(msg) {
   console.error('[entrypoint] ' + msg);
@@ -54,7 +57,10 @@ const config = {
   agents: {
     defaults: {
       model: { primary: 'agnes/' + MODEL_ID },
-      workspace: '/var/lib/openclaw/workspace',
+      workspace: WORKSPACE,
+      // 容器时区是 UTC（日志时间戳均为 +00:00）。不显式声明的话，「每天早上8点」
+      // 会被按 UTC 解释、实际在北京时间下午 4 点触发。
+      userTimezone: 'Asia/Shanghai',
     },
   },
   // 工具策略是顶层键（实测放在 agents.defaults 下会被校验拒绝：
@@ -111,6 +117,40 @@ const config = {
 fs.mkdirSync(path.dirname(CONFIG_PATH), { recursive: true });
 fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2) + '\n');
 console.log('[entrypoint] 配置已写入 ' + CONFIG_PATH);
+
+// 定时闹钟必须两段调用才会真正落地：qqbot_remind 只返回 cronParams，
+// 还要把它原样交给 cron 工具注册。线上实测漏过第二步——模型调完 qqbot_remind
+// 就直接回话（"好的，5分钟后提醒你"），日志里零 cron 注册，闹钟到点不响。
+// AGENTS.md 会被注入系统提示（agents.defaults.contextInjection 默认 always），
+// 在这里把这条规则写死，比只依赖插件技能文档更硬。
+const AGENTS_MD = `# 本机器人硬规则
+
+## 定时提醒必须注册成功才算完成
+用户说"提醒/闹钟/定时/N分钟后/每天X点"时：
+
+1. 先调 \`qqbot_remind\`（action=add，content=事项，time=相对时间或 cron 表达式）；
+2. **必须立刻**把它返回的 \`cronParams\` **原样**传给 \`cron\` 工具完成注册，
+   \`delivery.accountId\` 等字段一个都不能改、不能省；
+3. 只有 \`cron\` 返回成功后，才能回复用户"已设定"。
+
+只调第一步就回话等于**没设成闹钟**，到点不会响。口头承诺无效——
+你没有后台线程，唯一让提醒真正生效的方式就是完成第 2 步的 \`cron\` 注册。
+若 \`cron\` 调用失败，如实告诉用户没设上并说明原因，不要假装成功。
+
+## 时区
+用户在北京时间（UTC+8）。周期提醒一律带 \`"tz": "Asia/Shanghai"\`。
+
+## 回复风格
+简体中文，简短口语化，不写长篇大论。
+`;
+try {
+  fs.mkdirSync(WORKSPACE, { recursive: true });
+  fs.writeFileSync(path.join(WORKSPACE, 'AGENTS.md'), AGENTS_MD);
+  console.log('[entrypoint] AGENTS.md 已写入 ' + WORKSPACE + '（含闹钟两段调用硬规则）');
+} catch (err) {
+  // 工作区写失败不阻塞网关启动，但要留痕，避免"规则没生效却查不出原因"
+  console.error('[entrypoint] AGENTS.md 写入失败（闹钟硬规则未注入）: ' + err.message);
+}
 
 // QQ 频道网关需要常驻前台进程；监听端口取 Render 注入的 PORT
 process.env.OPENCLAW_GATEWAY_PORT = process.env.OPENCLAW_GATEWAY_PORT || process.env.PORT || '3000';
