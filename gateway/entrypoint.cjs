@@ -27,6 +27,8 @@ if (!gatewayToken) {
 
 const config = {
   gateway: {
+    // 官方网关硬要求：缺 gateway.mode 会被判定为可疑配置并以退出码 78 拒绝启动
+    mode: 'local',
     bind: 'lan',
     auth: { mode: 'token', token: gatewayToken },
   },
@@ -54,6 +56,9 @@ const config = {
       appId,
       clientSecret,
       markdownSupport: true,
+      // dmPolicy=open 时必须显式放行 "*"，否则所有私聊消息会被静默丢弃
+      dmPolicy: 'open',
+      allowFrom: ['*'],
     },
   },
 };
