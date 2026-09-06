@@ -31,8 +31,15 @@ const config = {
     mode: 'local',
     bind: 'lan',
     auth: { mode: 'token', token: gatewayToken },
+    // Render 的反向代理从容器内 loopback 接入并注入 X-Forwarded-For，网关判定为
+    // "不可归因的代理流量"并对所有管理路由回 403 proxy_attribution_required。
+    // 把 loopback 列为受信代理即可恢复管理 API（鉴权仍由 auth.mode=token 把关）。
+    trustedProxies: ['127.0.0.1', '::1'],
   },
   models: {
+    // 每次启动都会拉取云端模型目录，实测把 auth 阶段拖到 13.1 秒（占单轮延迟约 1/5），
+    // 而本地已显式声明 Agnes 模型，远端目录对本部署无用，直接关掉。
+    catalogRefresh: { enabled: false },
     providers: {
       agnes: {
         baseUrl: process.env.AGNES_BASE_URL || 'https://api.agnes-ai.cn/v1',
@@ -48,6 +55,21 @@ const config = {
     defaults: {
       model: { primary: 'agnes/' + MODEL_ID },
       workspace: '/var/lib/openclaw/workspace',
+      // bundle-tools 阶段实测 4.9 秒：逐个装配全部工具的 schema。用 deny 裁掉
+      // QQ 聊天用不到的重工具组（deny 是减法，不会误伤没列出的工具）。
+      // 必须保留：cron（定时闹钟）、group:messaging、group:web、group:memory
+      // 以及插件工具 qqbot_remind / qqbot_platform_api。
+      tools: {
+        deny: [
+          'group:fs',       // read/write/edit/apply_patch：云端无本地文件可操作
+          'group:runtime',  // exec/process/code_execution：容器内不给 agent 执行权
+          'group:ui',       // browser/canvas/screen/terminal：无显示环境
+          'group:nodes',    // nodes/computer：未接入节点
+          'image_generate',
+          'music_generate',
+          'video_generate',
+        ],
+      },
     },
   },
   channels: {
@@ -65,6 +87,9 @@ const config = {
   plugins: {
     entries: {
       'openclaw-qqbot': { enabled: true },
+      // memory-core 的 dreaming 会在启动时注册后台 cron 并做记忆整理，实测把
+      // bootstrap-context 阶段拖到 6.8 秒且推高堆占用；QQ 闲聊不需要长期记忆梦境。
+      'memory-core': { enabled: true, config: { dreaming: { enabled: false } } },
       // 512MB 免费实例内存吃紧（RSS 曾达 339MB 触发 critical），显式关闭
       // 与 QQ 聊天无关的重插件；模型适配走 models.providers（Agnes），保留 openai 适配器
       browser: { enabled: false },
