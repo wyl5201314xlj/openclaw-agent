@@ -26,8 +26,6 @@ const searchTool = require('./lib/tools/search_tool');
 const readerTool = require('./lib/tools/reader_tool');
 const { createHandler } = require('./lib/message_handler');
 const { runSelfTest } = require('./lib/selftest');
-const nodeStore = require('./lib/node_store');
-const nodeScheduler = require('./lib/node_scheduler');
 
 
 const log = createLogger('Server');
@@ -192,83 +190,7 @@ app.get('/api/selftest', requireAdmin, rateLimit(6, 60000), async (req, res) => 
 });
 
 
-// ---------------- 小火箭专属私密订阅端点 ----------------
-
-// ---------------- 小火箭 & Clash 智能双模订阅端点 ----------------
-
-app.all(['/sub/shadowrocket', '/sub/clash', '/sub'], rateLimit(60, 60000), (req, res) => {
-  try {
-    const token = String(req.query.token || req.get('x-sub-token') || '').trim();
-
-    // 订阅鉴权：只从环境变量 SUB_TOKENS 读取（逗号分隔多 token），源码不落任何密钥。
-    // 为空时直接 503，绝不放行。
-    const subTokens = String(process.env.SUB_TOKENS || '').split(',').map(s => s.trim()).filter(Boolean);
-    if (subTokens.length === 0) {
-      return res.status(503).type('text/plain').send('# 503 Service Unavailable: subscription not configured\n');
-    }
-    const isAuthorized = subTokens.some(t => safeEqual(token, t));
-    if (!isAuthorized) {
-      return res.status(403).type('text/plain').send('# 403 Forbidden: Invalid subscription token\n');
-    }
-
-    const userAgent = String(req.get('user-agent') || '').toLowerCase();
-    const format = String(req.query.format || '').toLowerCase();
-    const isClash = req.path.includes('clash') || format === 'clash' || userAgent.includes('clash') || userAgent.includes('mihomo');
-
-    if (isClash) {
-      // 客户端为 Clash for Android / Clash Meta，返回标准 YAML 配置
-      const clashYaml = nodeStore.generateClashConfig();
-      res.set({
-        'Content-Type': 'text/yaml; charset=utf-8',
-        'Subscription-Userinfo': 'upload=0; download=0; total=107374182400; expire=0',
-        'Profile-Update-Interval': '6',
-        'Cache-Control': 'no-cache',
-      });
-      return res.send(clashYaml);
-    }
-
-    // 默认返回 Shadowrocket (小火箭) Base64 订阅
-    const subBase64 = nodeStore.generateShadowrocketSubscription();
-    res.set({
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Subscription-Userinfo': 'upload=0; download=0; total=107374182400; expire=0',
-      'Profile-Update-Interval': '6',
-      'Cache-Control': 'no-cache',
-    });
-    return res.send(subBase64);
-  } catch (err) {
-    log.error('订阅路由异常', err);
-    return res.status(500).type('text/plain').send('SUB_ERR: ' + (err.stack || err.message));
-  }
-});
-
-
-app.all('/sub/refresh', rateLimit(10, 60000), async (req, res) => {
-  const token = String(req.query.token || req.get('x-sub-token') || '').trim();
-  const subTokens = String(process.env.SUB_TOKENS || '').split(',').map(s => s.trim()).filter(Boolean);
-  if (subTokens.length === 0) {
-    return res.status(503).json({ error: 'subscription not configured' });
-  }
-
-  if (!subTokens.some(t => safeEqual(token, t))) {
-    return res.status(403).json({ error: 'Forbidden' });
-  }
-
-  try {
-    await nodeScheduler.runFullRefreshCycle();
-    return res.json({
-      status: 'ok',
-      activeCount: nodeStore.activeNodes.length,
-      sample: nodeStore.activeNodes.slice(0, 3)
-    });
-  } catch (err) {
-    return res.status(500).json({ error: err.stack || err.message });
-  }
-});
-
-app.get('/sub/stats', requireAdmin, (req, res) => {
-  return res.json(nodeStore.getSummaryStats());
-});
+// 订阅端点已随梯子系统下线（2026-09-03 主人决定放弃该方向），/sub/* 一律 404。
 
 app.use((req, res) => res.status(404).json({ error: '接口不存在' }));
 
@@ -296,7 +218,6 @@ async function shutdown(signal) {
   log.warn(`收到 ${signal}，开始优雅关闭`);
   qqBot.shutdown();
   timerTool.stop();
-  nodeScheduler.stop();
   if (server) {
     await new Promise((resolve) => server.close(resolve));
   }
@@ -332,7 +253,6 @@ async function bootstrap() {
   // 先重建定时提醒（补发休眠期间错过的），再连 QQ 网关
   await timerTool.start();
   await qqBot.connect();
-  nodeScheduler.start();
 }
 
 bootstrap().catch((err) => {
