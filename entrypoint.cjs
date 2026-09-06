@@ -55,22 +55,24 @@ const config = {
     defaults: {
       model: { primary: 'agnes/' + MODEL_ID },
       workspace: '/var/lib/openclaw/workspace',
-      // bundle-tools 阶段实测 4.9 秒：逐个装配全部工具的 schema。用 deny 裁掉
-      // QQ 聊天用不到的重工具组（deny 是减法，不会误伤没列出的工具）。
-      // 必须保留：cron（定时闹钟）、group:messaging、group:web、group:memory
-      // 以及插件工具 qqbot_remind / qqbot_platform_api。
-      tools: {
-        deny: [
-          'group:fs',       // read/write/edit/apply_patch：云端无本地文件可操作
-          'group:runtime',  // exec/process/code_execution：容器内不给 agent 执行权
-          'group:ui',       // browser/canvas/screen/terminal：无显示环境
-          'group:nodes',    // nodes/computer：未接入节点
-          'image_generate',
-          'music_generate',
-          'video_generate',
-        ],
-      },
     },
+  },
+  // 工具策略是顶层键（实测放在 agents.defaults 下会被校验拒绝：
+  // "agents.defaults: Unrecognized key: tools"，网关以退出码 78 拒绝启动）。
+  // bundle-tools 阶段实测 4.9 秒：逐个装配全部工具的 schema。用 deny 裁掉
+  // QQ 聊天用不到的重工具组（deny 是减法，不会误伤没列出的工具）。
+  // 必须保留：cron（定时闹钟）、group:messaging、group:web、group:memory
+  // 以及插件工具 qqbot_remind / qqbot_platform_api。
+  tools: {
+    deny: [
+      'group:fs',       // read/write/edit/apply_patch：云端无本地文件可操作
+      'group:runtime',  // exec/process/code_execution：容器内不给 agent 执行权
+      'group:ui',       // browser/canvas/screen/terminal：无显示环境
+      'group:nodes',    // nodes/computer：未接入节点
+      'image_generate',
+      'music_generate',
+      'video_generate',
+    ],
   },
   channels: {
     qqbot: {
