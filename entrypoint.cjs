@@ -61,6 +61,12 @@ const config = {
       allowFrom: ['*'],
     },
   },
+  // 外部插件必须显式信任启用，否则 qqbot 频道不会加载（网关只打警告不生效）
+  plugins: {
+    entries: {
+      'openclaw-qqbot': { enabled: true },
+    },
+  },
 };
 
 fs.mkdirSync(path.dirname(CONFIG_PATH), { recursive: true });
