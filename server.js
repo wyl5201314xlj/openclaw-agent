@@ -190,6 +190,48 @@ app.get('/api/selftest', requireAdmin, rateLimit(6, 60000), async (req, res) => 
 });
 
 
+// ---------------- 热点资讯定时推送（QQ 主动消息） ----------------
+
+const hotnews = require('./lib/hotnews');
+let hotnewsTimer = null;
+let hotnewsInFlight = false;
+
+/** 每分钟核对北京时间是否到达推送时刻（默认 08:30，HOTNEWS_SCHEDULE 可调） */
+function hotnewsTick() {
+  if (hotnewsInFlight) return;
+  const [hh, mm] = config.hotnews.schedule.split(':').map(Number);
+  const bj = new Date(Date.now() + 8 * 3600 * 1000);
+  if (bj.getUTCHours() === hh && bj.getUTCMinutes() === mm) {
+    hotnewsInFlight = true;
+    hotnews
+      .sendHotNews(false)
+      .then((r) => log.info('定时热点推送结果', { ok: r.ok, reason: r.reason, count: r.count }))
+      .catch((err) => log.error('定时热点推送异常', err))
+      .finally(() => {
+        hotnewsInFlight = false;
+      });
+  }
+}
+
+app.get('/api/hotnews/preview', requireAdmin, async (req, res) => {
+  try {
+    const prep = await hotnews.prepareDigest(new Date(), true);
+    return res.json(prep);
+  } catch (err) {
+    return res.status(500).json({ error: String(err.message).slice(0, 300) });
+  }
+});
+
+app.post('/api/hotnews/send', requireAdmin, rateLimit(4, 3600000), async (req, res) => {
+  try {
+    const r = await hotnews.sendHotNews(true);
+    return res.status(r.ok ? 200 : 502).json(r);
+  } catch (err) {
+    log.error('手动热点推送失败', err);
+    return res.status(500).json({ error: String(err.message).slice(0, 300) });
+  }
+});
+
 // 订阅端点已随梯子系统下线（2026-09-03 主人决定放弃该方向），/sub/* 一律 404。
 
 app.use((req, res) => res.status(404).json({ error: '接口不存在' }));
@@ -218,6 +260,7 @@ async function shutdown(signal) {
   log.warn(`收到 ${signal}，开始优雅关闭`);
   qqBot.shutdown();
   timerTool.stop();
+  if (hotnewsTimer) clearInterval(hotnewsTimer);
   if (server) {
     await new Promise((resolve) => server.close(resolve));
   }
@@ -253,6 +296,16 @@ async function bootstrap() {
   // 先重建定时提醒（补发休眠期间错过的），再连 QQ 网关
   await timerTool.start();
   await qqBot.connect();
+
+  // 热点资讯定时推送（每天 HOTNEWS_SCHEDULE，北京时间）
+  if (config.hotnews.enabled) {
+    hotnewsTimer = setInterval(hotnewsTick, 60 * 1000);
+    if (typeof hotnewsTimer.unref === 'function') hotnewsTimer.unref();
+    log.info('热点推送调度已启动', {
+      schedule: `${config.hotnews.schedule} (北京时间)`,
+      target: config.hotnews.openid ? 'MASTER_OPENID 已配置' : '未配置 MASTER_OPENID',
+    });
+  }
 }
 
 bootstrap().catch((err) => {
