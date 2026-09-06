@@ -34,7 +34,8 @@ COPY entrypoint.cjs /usr/local/bin/openclaw-entrypoint.cjs
 ENV PORT=3000
 EXPOSE 3000
 
-HEALTHCHECK --interval=60s --timeout=10s --start-period=90s --retries=3 \
-  CMD node -e "fetch('http://127.0.0.1:'+(process.env.OPENCLAW_GATEWAY_PORT||process.env.PORT||3000)+'/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+# 官方网关的健康端点是 /health，/healthz 实测 404（曾导致 Render 健康检查判定失败）
+HEALTHCHECK --interval=60s --timeout=10s --start-period=120s --retries=3 \
+  CMD node -e "fetch('http://127.0.0.1:'+(process.env.OPENCLAW_GATEWAY_PORT||process.env.PORT||3000)+'/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
 CMD ["node", "/usr/local/bin/openclaw-entrypoint.cjs"]
